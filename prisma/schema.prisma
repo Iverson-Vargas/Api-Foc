@@ -46,3 +46,12 @@ model test {
   deleted_at DateTime?
 }
 
+model categories {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique @db.VarChar(100)
+  status     Boolean   @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+}
+
