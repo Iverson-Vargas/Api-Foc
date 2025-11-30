@@ -53,5 +53,43 @@ model categories {
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
   deleted_at DateTime?
+  products products[]
 }
 
+model warehouses {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique @db.VarChar(100)
+  status     Boolean   @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+  areas areas[]
+}
+
+model areas {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(100)
+  warehouse  warehouses     @relation(fields: [warehouse_id], references: [id])
+  warehouse_id Int
+  status     Boolean   @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+  products products[]
+}
+
+model products {
+  id         Int       @id @default(autoincrement())
+  name       String   @db.VarChar(100)
+  price      Decimal    @db.Decimal(10, 2)
+  quantity  Int
+  category  categories     @relation(fields: [category_id], references: [id])
+  category_id  Int
+  area  areas     @relation(fields: [area_id], references: [id])
+  area_id Int
+  status     Boolean   @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  deleted_at DateTime?
+  @@unique([name, area_id])
+}
