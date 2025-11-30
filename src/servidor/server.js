@@ -8,6 +8,7 @@ import userRoutes from '../rutas/users.rutas.js';
 import categoryRoutes from '../rutas/categories.rutas.js';
 import warehouseRoutes from '../rutas/warehouses.rutas.js';
 import areasRoutes from '../rutas/areas.rutas.js';
+import productsRoutes from '../rutas/products.rutas.js';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -27,6 +28,7 @@ export class Servidor {
       categories:`${this.pre}/categories`,
       warehouses:`${this.pre}/warehouses`,
       areas:`${this.pre}/areas`,
+      products:`${this.pre}/products`
     };
     this.routes();
     
@@ -45,6 +47,7 @@ export class Servidor {
     this.app.use(this.rutas.categories,categoryRoutes)
     this.app.use(this.rutas.warehouses,warehouseRoutes)
     this.app.use(this.rutas.areas,areasRoutes)  
+    this.app.use(this.rutas.products,productsRoutes)
   }
 
   listen = () => {
