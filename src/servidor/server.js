@@ -5,8 +5,9 @@ import { fileURLToPath } from 'url'
 import testRoutes from '../rutas/test.rutas.js';
 import rolesRoutes from '../rutas/roles.rutas.js';
 import userRoutes from '../rutas/users.rutas.js';
-import categoryRutes from '../rutas/categories.rutas.js';
+import categoryRoutes from '../rutas/categories.rutas.js';
 import warehouseRoutes from '../rutas/warehouses.rutas.js';
+import areasRoutes from '../rutas/areas.rutas.js';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -25,6 +26,7 @@ export class Servidor {
       users:`${this.pre}/users`,
       categories:`${this.pre}/categories`,
       warehouses:`${this.pre}/warehouses`,
+      areas:`${this.pre}/areas`,
     };
     this.routes();
     
@@ -40,8 +42,9 @@ export class Servidor {
     this.app.use(this.rutas.test,testRoutes)
     this.app.use(this.rutas.roles,rolesRoutes)
     this.app.use(this.rutas.users,userRoutes)
-    this.app.use(this.rutas.categories,categoryRutes)
+    this.app.use(this.rutas.categories,categoryRoutes)
     this.app.use(this.rutas.warehouses,warehouseRoutes)
+    this.app.use(this.rutas.areas,areasRoutes)  
   }
 
   listen = () => {
