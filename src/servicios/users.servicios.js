@@ -1,6 +1,21 @@
+/**
+ * CAPA DE SERVICIOS - USERS
+ * 
+ * Esta capa contiene toda la lógica de negocio y acceso a la base de datos para el módulo de Usuarios.
+ * Los servicios se comunican con Prisma para realizar operaciones CRUD.
+ * 
+ * Responsabilidades:
+ * - Realizar consultas a la base de datos usando Prisma.
+ * - Aplicar lógica de negocio (validaciones, transformaciones).
+ * - Retornar respuestas estructuradas: { message, status, data }.
+ */
+
 import { prisma } from '../config/prisma.config.js';
 
 const UserServices = {
+    /**
+     * Obtiene todos los usuarios activos (status = true).
+     */
     getAll: async () => {
         try {
             const users = await prisma.users.findMany({
@@ -33,6 +48,10 @@ const UserServices = {
         }
     },
 
+    /**
+     * Obtiene un usuario por su ID.
+     * @param {number} id - ID del usuario a buscar.
+     */
     getById: async (id) => {
         try {
             const user = await prisma.users.findUnique({
@@ -65,6 +84,10 @@ const UserServices = {
         }
     },
 
+    /**
+     * Crea un nuevo usuario.
+     * @param {object} userData - Datos del usuario a crear.
+     */
     create: async (userData) => {
         try {
             const newUser = await prisma.users.create({
@@ -92,6 +115,11 @@ const UserServices = {
         }
     },
 
+    /**
+     * Actualiza un usuario existente.
+     * @param {number} id - ID del usuario a actualizar.
+     * @param {object} userData - Datos a actualizar.
+     */
     update: async (id, userData) => {
         try {
             const user = await prisma.users.update({
@@ -122,6 +150,10 @@ const UserServices = {
         }
     },
 
+    /**
+     * Elimina un usuario (soft delete).
+     * @param {number} id - ID del usuario a eliminar.
+     */
     delete: async (id) => {
         try {
             const user = await prisma.users.update({
@@ -147,6 +179,11 @@ const UserServices = {
         }
     },
 
+    /**
+     * Busca un usuario por su email.
+     * Se usa en las validaciones para verificar emails únicos.
+     * @param {string} email - Email del usuario a buscar.
+     */
     getByEmail: async (email) => {
         try {
             const user = await prisma.users.findUnique({
@@ -168,6 +205,44 @@ const UserServices = {
                     data: {
                         user,
                     },
+                };
+            }
+        } catch (error) {
+            console.log(error);
+            return {
+                message: `Por favor contacte al administrador`,
+                status: 500,
+            };
+        }
+    },
+
+    /**
+     * Busca un usuario por su username (case-insensitive).
+     * Se usa en las validaciones para verificar usernames únicos.
+     * @param {string} username - Username del usuario a buscar.
+     */
+    getByUsername: async (username) => {
+        try {
+            const user = await prisma.users.findFirst({
+                where: {
+                    username: {
+                        equals: username,
+                        mode: 'insensitive',
+                    },
+                },
+            });
+
+            if (!user) {
+                return {
+                    message: `Registro no encontrado`,
+                    status: 404,
+                    data: { user },
+                };
+            } else {
+                return {
+                    message: `Registro encontrado`,
+                    status: 200,
+                    data: { user },
                 };
             }
         } catch (error) {

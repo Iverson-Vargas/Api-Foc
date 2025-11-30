@@ -1,6 +1,21 @@
+/**
+ * CAPA DE SERVICIOS - PRODUCTS
+ * 
+ * Esta capa contiene toda la lógica de negocio y acceso a la base de datos para el módulo de Productos.
+ * Los servicios se comunican con Prisma para realizar operaciones CRUD.
+ * 
+ * Responsabilidades:
+ * - Realizar consultas a la base de datos usando Prisma.
+ * - Aplicar lógica de negocio (validaciones, transformaciones).
+ * - Retornar respuestas estructuradas: { message, status, data }.
+ */
+
 import { prisma } from "../config/prisma.config.js";
 
 const ProductsServices = {
+  /**
+   * Obtiene todos los productos activos (status = true).
+   */
   getAll: async () => {
     try {
       const products = await prisma.products.findMany({
@@ -33,6 +48,10 @@ const ProductsServices = {
     }
   },
 
+  /**
+   * Obtiene un producto por su ID.
+   * @param {number} id - ID del producto a buscar.
+   */
   getById: async (id) => {
     try {
       const product = await prisma.products.findUnique({
@@ -65,6 +84,10 @@ const ProductsServices = {
     }
   },
 
+  /**
+   * Crea un nuevo producto.
+   * @param {object} productData - Datos del producto a crear.
+   */
   create: async (productData) => {
     try {
       const newProduct = await prisma.products.create({
@@ -92,6 +115,11 @@ const ProductsServices = {
     }
   },
 
+  /**
+   * Actualiza un producto existente.
+   * @param {number} id - ID del producto a actualizar.
+   * @param {object} productData - Datos a actualizar.
+   */
   update: async (id, productData) => {
     try {
       const product = await prisma.products.update({
@@ -122,6 +150,10 @@ const ProductsServices = {
     }
   },
 
+  /**
+   * Elimina un producto (soft delete).
+   * @param {number} id - ID del producto a eliminar.
+   */
   delete: async (id) => {
     try {
       const product = await prisma.products.update({
@@ -140,6 +172,45 @@ const ProductsServices = {
       };
     } catch (error) {
       console.error(error);
+      return {
+        message: `Por favor contacte al administrador`,
+        status: 500,
+      };
+    }
+  },
+
+  /**
+   * Busca un producto por su nombre (case-insensitive).
+   * Se usa en las validaciones para verificar nombres únicos.
+   * @param {string} name - Nombre del producto a buscar.
+   */
+  getByName: async (name) => {
+    try {
+      const product = await prisma.products.findFirst({
+        where: {
+          name: {
+            equals: name,
+            mode: 'insensitive',
+          },
+        },
+      });
+
+      if (!product) {
+        return {
+          message: `Registro no encontrado`,
+          status: 404,
+          data: { product },
+        };
+      } 
+      else {
+        return {
+          message: `Registro encontrado`,
+          status: 200,
+          data: { product },
+        };
+      }
+    } catch (error) {
+      console.log(error);
       return {
         message: `Por favor contacte al administrador`,
         status: 500,
