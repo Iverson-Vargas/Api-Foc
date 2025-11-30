@@ -11,9 +11,9 @@
     "prisma:reset": "npx prisma migrate reset"
   },
   "keywords": [],
-  "author": "Zedmous",
+  "author": "Iverson Vargas - Anthony Azuaje - Sebastian Dorante - Johan Torres",
   "license": "ISC",
-  "description": "",
+  "description": "Este proyecto es una API RESTful desarrollada con Node.js y Express para gestionar usuarios, roles, categorías y almacenes. Utiliza Prisma como ORM para interactuar con una base de datos relacional, proporcionando una estructura robusta y escalable para aplicaciones de gestión de inventarios y usuarios.",
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "cors": "^2.8.5",

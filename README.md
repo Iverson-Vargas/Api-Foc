@@ -1,12 +1,18 @@
-## API 15112025
+## API FOC - Gestión de Inventarios y Usuarios
 
-API REST construida con **Node.js** y **Express**, organizada por capas (`servidor`, `rutas`, `controladores`, `servicios`, `validators`). Utiliza **Prisma** como ORM para la gestión de base de datos con **PostgreSQL**. Actualmente expone endpoints CRUD completos para usuarios, roles y test, con validaciones implementadas usando **express-validator**.
+Este proyecto es una API RESTful desarrollada con **Node.js** y **Express** para gestionar usuarios, roles, categorías, almacenes, áreas y productos. Utiliza **Prisma** como ORM para interactuar con una base de datos **PostgreSQL** y sigue una arquitectura por capas para asegurar un código mantenible y escalable.
+
+**Autores**:
+- Iverson Vargas
+- Anthony Azuaje
+- Sebastian Dorante
+- Johan Torres
 
 ---
 
-## 🚀 Inicio Rápido
+## ⚙️ Configuración y Puesta en Marcha
 
-### Primera vez (Setup inicial)
+### 1. Instrucciones de Instalación
 
 1. **Instalar dependencias**:
 ```bash
@@ -243,5 +249,3 @@ docker compose down
 - `npm run prisma:migrate` → Ejecuta las migraciones de Prisma
 - `npm run prisma:studio` → Abre Prisma Studio para visualizar datos
 - `npm run prisma:reset` → Resetea la base de datos (elimina todos los datos)
-
-
